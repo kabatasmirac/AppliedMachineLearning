@@ -1,0 +1,81 @@
+# Pandas will allow us to create a dataframe of the data so it can be used and manipulated
+import pandas as pd
+# Regression Tree Algorithm
+from sklearn.tree import DecisionTreeRegressor
+# Split our data into a training and testing data
+from sklearn.model_selection import train_test_split
+
+
+"""
+About the Dataset
+
+Imagine you are a data scientist working for a real estate company that is planning to invest in Boston real estate. You have collected information about various areas of Boston and are tasked with created a model that can predict the median price of houses for that area so it can be used to make offers.
+
+The dataset had information on areas/towns not individual houses, the features are
+
+CRIM: Crime per capita
+
+ZN: Proportion of residential land zoned for lots over 25,000 sq.ft.
+
+INDUS: Proportion of non-retail business acres per town
+
+CHAS: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)
+
+NOX: Nitric oxides concentration (parts per 10 million)
+
+RM: Average number of rooms per dwelling
+
+AGE: Proportion of owner-occupied units built prior to 1940
+
+DIS: Weighted distances to ﬁve Boston employment centers
+
+RAD: Index of accessibility to radial highways
+
+TAX: Full-value property-tax rate per $10,000
+
+PTRAIO: Pupil-teacher ratio by town
+
+LSTAT: Percent lower status of the population
+
+MEDV: Median value of owner-occupied homes in $1000s
+
+"""
+
+data = pd.read_csv(regression_tree_data)
+data.head()
+data.shape
+data.isna().sum()
+
+data.dropna(inplace=True)
+data.isna().sum()
+
+#split the data to prediction
+X = data.drop(columns=["MEDV"])
+Y = data["MEDV"]
+X.head()
+Y.head()
+
+#split  data into a training and testing dataset using train_test_split from sklearn.model_selection
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=.2, random_state=1)
+
+
+regression_tree = DecisionTreeRegressor(criterion = "mse")
+regression_tree.fit(X_train, Y_train)
+
+regression_tree.score(X_test, Y_test) #with mse = 0.8508096691103029
+
+#We can also find the average error in our testing set which is the average error in median home value prediction
+
+prediction = regression_tree.predict(X_test) 
+
+print("$",(prediction - Y_test).abs().mean()*1000)
+
+regressiontree=DecisionTreeRegressor(criterion="mae")
+regressiontree.fit(X_train,Y_train)
+regressiontree.score(X_test,Y_test) #with mae = 0.7840562121900326
+
+
+
+
+
